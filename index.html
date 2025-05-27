@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Copy + Notifikasi + Dark Mode</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          animation: {
+            fadeUp: 'fadeUp 0.6s ease-out both'
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: 0, transform: 'translateY(20px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .notif {
+      transition: all 0.5s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 relative">
+
+  <!-- Notifikasi -->
+  <div id="notif" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-4 py-3 rounded shadow-md opacity-0 pointer-events-none notif z-50 w-72 text-center">
+    Teks berhasil disalin!
+    <div class="mt-2 h-1 bg-white w-full overflow-hidden rounded">
+      <div id="progress" class="h-1 bg-green-800 w-full"></div>
+    </div>
+  </div>
+
+  <!-- Suara klik -->
+  <audio id="clickSound" src="https://cdn.pixabay.com/audio/2022/03/15/audio_9cc53f99c4.mp3" preload="auto"></audio>
+
+  <!-- Header -->
+  <header class="bg-white dark:bg-gray-800 shadow-md p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Putz All Website</h1>
+      <nav class="space-x-4">
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-500 transition">Beranda</a>
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-500 transition">Tentang</a>
+        <a href="#" class="text-gray-700 dark:text-gray-200 hover:text-blue-500 transition">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="bg-blue-600 text-white py-20">
+    <div class="container mx-auto text-center animate-fadeUp">
+      <h2 class="text-3xl font-bold mb-4">Welcome To Website Kami</h2>
+      <p class="text-lg mb-6">Klik tombol untuk menyalin dan masuk ke halaman lain.</p>
+    </div>
+  </section>
+
+  <!-- Fitur -->
+  <section class="py-12">
+    <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+      <!-- Template Fitur -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center transition hover:scale-105 duration-300 animate-fadeUp">
+        <h3 class="font-bold text-xl mb-2">ALL MENU KAMI</h3>
+        <p id="copyText1" class="mb-4 text-sm break-all">PRESS BUTTON TO OPEN ALL MENU</p>
+        <div class="space-x-2">
+          <button onclick="copyText('https://allmenu-pay-putzstr.vercel.app/')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Salin
+          </button>
+          <a href="https://allmenu-pay-putzstr.vercel.app/" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Masuk
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center transition hover:scale-105 duration-300 animate-fadeUp">
+        <h3 class="font-bold text-xl mb-2">TESTIMONI KAMI</h3>
+        <p id="copyText2" class="mb-4 text-sm break-all">PRESS TO OPEM TESTIMONI</p>
+        <div class="space-x-2">
+          <button onclick="copyText('https://whatsapp.com/channel/0029VauqoHEKAwEssuLaTK1z')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Salin
+          </button>
+          <a href="https://whatsapp.com/channel/0029VauqoHEKAwEssuLaTK1z" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Masuk
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-white dark:bg-gray-800 p-6 rounded shadow text-center transition hover:scale-105 duration-300 animate-fadeUp">
+        <h3 class="font-bold text-xl mb-2">PAYMENT KAMI</h3>
+        <p id="copyText3" class="mb-4 text-sm break-all">PRESS TO OPEN PAYMENT</p>
+        <div class="space-x-2">
+          <button onclick="copyText('https://putz-paymentv003.vercel.app')" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Salin
+          </button>
+          <a href="https://putz-paymentv003.vercel.app" target="_blank" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded transition active:scale-95">
+            Masuk
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white text-center p-4">
+    <p>&copy; 2025 Web Putz. All rights reserved, Not Copyright©.</p>
+  </footer>
+
+  <!-- Script -->
+  <script>
+    function copyText(id) {
+      const text = document.getElementById(id).innerText;
+      const notif = document.getElementById('notif');
+      const progress = document.getElementById('progress');
+      const audio = document.getElementById('clickSound');
+
+      navigator.clipboard.writeText(text).then(() => {
+        audio.currentTime = 0;
+        audio.play();
+
+        notif.classList.remove('opacity-0');
+        notif.classList.add('opacity-100');
+
+        progress.style.transition = 'none';
+        progress.style.width = '100%';
+        setTimeout(() => {
+          progress.style.transition = 'width 2s linear';
+          progress.style.width = '0%';
+        }, 50);
+
+        setTimeout(() => {
+          notif.classList.remove('opacity-100');
+          notif.classList.add('opacity-0');
+        }, 2000);
+      }).catch(err => {
+        alert('Gagal menyalin teks.');
+        console.error(err);
+      });
+    }
+  </script>
+
+</body>
+</html>
